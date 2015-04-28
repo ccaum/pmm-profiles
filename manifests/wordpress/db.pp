@@ -1,5 +1,5 @@
 class profile::wordpress::db(
-  $app_hosts = query_nodes('Class[profile::wordpress::app]', fqdn)
+  $app_hosts = query_nodes('Class[profile::wordpress::app]', fqdn),
   $db_name,
   $db_user,
   $db_password,
