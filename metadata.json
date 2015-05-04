@@ -10,6 +10,7 @@
   "description": "Top-level profile-aggregator module to defining SE-Team-specific profiles",
   "dependencies": [
     {"name":"puppetlabs/mysql","version_requirement":">= 3.3.0"},
+    {"name":"puppetlabs/apache","version_requirement":">= 1.4.1"},
     {"name":"hunner/wordpress","version_requirement":">= 1.0.0"},
     {"name":"stahnma/epel","version_requirement":">= 1.0.2"}
   ]
