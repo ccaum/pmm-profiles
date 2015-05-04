@@ -1,8 +1,8 @@
 class profile::wordpress::db(
   $app_hosts = query_nodes('Class[profile::wordpress::app]', fqdn),
-  $db_name,
-  $db_user,
-  $db_password,
+  $db_name = $::profile::wordpress::db_name,
+  $db_user = $::profile::wordpress::db_user,
+  $db_password = $::profile::wordpress::db_password,
 ) {
   class { 'mysql::server': }
 
