@@ -4,14 +4,7 @@ class profile::wordpress::db(
   $db_user = $::profile::wordpress::db_user,
   $db_password = $::profile::wordpress::db_password,
 ) {
-  $db_overrides = {
-    'mysqld' => { 'bind-address' => '0.0.0.0' }
-  }
-
-  class { 'mysql::server': 
-    remove_default_accounts => true,
-    override_options        => $db_overrides,
-  }
+  include ::mysql::server
 
   mysql_database { $db_name: }
 
