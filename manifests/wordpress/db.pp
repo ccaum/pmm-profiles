@@ -8,7 +8,7 @@ class profile::wordpress::db(
 
   mysql_database { $db_name: }
 
-  $app_host_users  = generate_host_db_users($db_user, $app_hosts)
+  $app_host_users  = generate_host_db_users($db_user, $app_hosts, $db_password)
   $app_host_grants = generate_host_db_grants($db_user, $app_hosts, ['SELECT','GRANT'], '*.*')
 
   create_resources('mysql_user', $app_host_users)
