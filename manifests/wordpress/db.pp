@@ -6,13 +6,11 @@ class profile::wordpress::db(
 ) {
   class { 'mysql::server': }
 
-  if ! empty($app_hosts) {
-    mysql::db { $db_name:
-      user     => $db_user,
-      password => $db_password,
-      dbname   => $db_name,
-      host     => $app_hosts,
-      grant    => ['SELECT','UPDATE'],
-    }
-  }
+  mysql_database { $db_name: }
+
+  $app_host_users  = generate_host_db_users($db_user, $app_hosts)
+  $app_host_grants = generate_host_db_grants($db_user, $app_hosts, ['SELECT','GRANT'], '*.*')
+
+  create_resources('mysql_user', $app_host_users)
+  create_resources('mysql_grant', $app_host_grants)
 }
