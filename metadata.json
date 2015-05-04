@@ -9,7 +9,8 @@
   "issues_url": "https://github.com/puppetlabs-seteam/puppet-module-profile/issues",
   "description": "Top-level profile-aggregator module to defining SE-Team-specific profiles",
   "dependencies": [
-    {"name":"hawknewton/pulp","version_requirement":">= 0.1.0"},
+    {"name":"puppetlabs/mysql","version_requirement":">= 3.3.0"},
+    {"name":"hunner/wordpress","version_requirement":">= 1.0.0"},
     {"name":"stahnma/epel","version_requirement":">= 1.0.2"}
   ]
 }
