@@ -4,11 +4,15 @@ class profile::wordpress::db(
   $db_user,
   $db_password,
 ) {
-  mysql::db { $db_name:
-    user     => $db_user,
-    password => $db_password,
-    dbname   => $db_name,
-    host     => $app_hosts,
-    grant    => ['SELECT','UPDATE'],
+  class { 'mysql::server': }
+
+  if ! empty($app_hosts) {
+    mysql::db { $db_name:
+      user     => $db_user,
+      password => $db_password,
+      dbname   => $db_name,
+      host     => $app_hosts,
+      grant    => ['SELECT','UPDATE'],
+    }
   }
 }
