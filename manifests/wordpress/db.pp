@@ -6,10 +6,10 @@ class profile::wordpress::db(
 ) {
   include ::mysql::server
 
-  mysql_database { $db_name: }
+  mysql_database { $db_name: ensure => present, }
 
   $app_host_users  = generate_host_db_users($db_user, $app_hosts, $db_password)
-  $app_host_grants = generate_host_db_grants($db_user, $app_hosts, ['SELECT','GRANT'], '*.*')
+  $app_host_grants = generate_host_db_grants($db_user, $app_hosts, ['SELECT','GRANT'], "${db_name}.*")
 
   create_resources('mysql_user', $app_host_users)
   create_resources('mysql_grant', $app_host_grants)
