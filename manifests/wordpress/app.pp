@@ -1,9 +1,9 @@
 class profile::wordpress::app(
   $install_dir = '/opt/wordpress',
   $db_host = query_nodes('Class[profile::wordpress::db]', fqdn),
-  $db_name = $::profile::wordpress::db_name,
-  $db_user = $::profile::wordpress::db_user,
-  $db_password = $::profile::wordpress::db_password,
+  $db_name,
+  $db_user,
+  $db_password,
 ) {
   $db_host_real = $db_host[0]
 
@@ -32,5 +32,16 @@ class profile::wordpress::app(
     db_user        => $db_user,
     db_password    => $db_password,
     db_host        => $db_host_real,
+  }
+
+  @@mysql_user { "${db_user}@${::fqdn}":
+    ensure        => present,
+    password_hash => mysql_password($db_password),
+  }
+
+  @@mysql_grant { "${db_user}@${::fqdn}/${db_name}.*":
+    privileges => ['SELECT','GRANT'],
+    table      => "${db_name}.*",
+    user       => "${db_user}@${::fqdn}",
   }
 }
