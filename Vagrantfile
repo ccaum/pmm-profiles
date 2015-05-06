@@ -7,5 +7,5 @@ Vagrant.configure(2) do |config|
   config.vm.network :private_network, type: "dhcp"
   config.vm.provision :shell, inline: 'iptables -F'
   config.vm.provision :shell, inline: 'ruby /vagrant/scripts/install_dependent_modules.rb'
-  config.vm.provision :shell, inline: 'ln -s /vagrant/hiera.yaml /etc/puppet/hiera.yaml'
+  config.vm.provision :shell, inline: '[ -f /etc/puppet/hiera.yaml ] || ln -s /vagrant/hiera.yaml /etc/puppet/hiera.yaml'
 end
