@@ -13,4 +13,8 @@ class profile::common {
     }
   }
 
+  service { 'NetworkManager':
+    ensure => stopped,
+    enable => false,
+  }
 }
