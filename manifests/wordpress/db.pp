@@ -6,6 +6,12 @@ class profile::wordpress::db (
 
   mysql_database { $db_name: ensure => present, }
 
+  firewall { '00 Allow inbound mysql requests':
+    proto  => 'tcp',
+    action => 'accept',
+    port   => '3306',
+  }
+
   Mysql_user  <<||>>
   Mysql_grant <<||>>
 }
