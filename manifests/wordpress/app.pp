@@ -34,6 +34,12 @@ class profile::wordpress::app(
     db_host        => $db_host_real,
   }
 
+  firewall { '00 Allow inbound http requests':
+    proto  => 'tcp',
+    action => 'accept',
+    port   => '80',
+  }
+
   @@mysql_user { "${db_user}@${::fqdn}":
     ensure        => present,
     password_hash => mysql_password($db_password),
