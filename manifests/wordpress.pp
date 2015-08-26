@@ -16,6 +16,10 @@ class profile::wordpress {
 
   class { 'mysql::server': }
 
+  class { 'php':
+    extensions => { 'mysql' => {} },
+  }
+
   apache::vhost { 'wordpress':
     docroot => '/opt/wordpress',
   }
