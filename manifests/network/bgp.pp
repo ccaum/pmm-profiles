@@ -1,4 +1,16 @@
-class profile::network::bgp {
+class profile::network::bgp(
+  $neighbor,
+  $clusterid,
+  $routerid = $::ipaddress,
+  $network = undef,
+) {
+
+  if $network {
+    $network_real = $network
+  } else {
+    $cidr_mask = cidr_mask($::netmask)
+    $network_real = "${::network}/${cidr_mask}"
+  }
 
   # --------------------------------------------------------------------------#
   # Configure Global BGP                                                      #
@@ -7,8 +19,8 @@ class profile::network::bgp {
   command => "
     router bgp 55
       shutdown
-      router-id 192.55.55.55
-      cluster-id 172.5.5.5
+      router-id ${routerid}
+      cluster-id ${clusterid}
       timers bgp 33 190
       timers bestpath-limit 44 always
       graceful-restart-helper
@@ -38,7 +50,7 @@ class profile::network::bgp {
       address-family ipv4 unicast
         timers bestpath-defer 302 maximum 3001
         dampening 30 4 30 200
-        network 192.55.55.0/24 route-map twomap
+        network ${network_real} route-map twomap
         redistribute ospf 30 route-map ospf_map
         redistribute isis 3 route-map isis_map
         redistribute eigrp 1 route-map eigrp_map
@@ -67,7 +79,7 @@ class profile::network::bgp {
         address-family ipv4 unicast
           timers bestpath-defer 302 maximum 3001
           dampening 30 4 30 200
-          network 192.55.55.0/24 route-map twomap
+          network ${network_real} route-map twomap
           redistribute ospf 30 route-map ospf_map
           redistribute isis 3 route-map isis_map
           redistribute eigrp 1 route-map eigrp_map
@@ -92,7 +104,7 @@ class profile::network::bgp {
   cisco_command_config { 'cisco_bgp_neighbor':
   command   => "
     router bgp 55
-      neighbor 192.1.1.1
+      neighbor ${neighbor}
         bfd
         inherit peer peer_template_one
         remote-as 24
@@ -110,7 +122,7 @@ class profile::network::bgp {
   cisco_command_config { 'cisco_bgp_v4_neighbor_afv4':
   command   => "
     router bgp 55
-      neighbor 192.1.1.1
+      neighbor ${neighbor}
         address-family ipv4 unicast
           allowas-in
           no disable-peer-as-check
@@ -129,7 +141,7 @@ class profile::network::bgp {
   command   => "
     router bgp 55
       vrf nondefault
-        neighbor 192.1.1.1
+        neighbor ${neighbor}
           address-family ipv4 unicast
             allowas-in
             no disable-peer-as-check
@@ -147,7 +159,7 @@ class profile::network::bgp {
   cisco_command_config { 'cisco_bgp_v4_neighbor_afv6':
   command   => "
     router bgp 55
-      neighbor 192.1.1.1
+      neighbor ${neighbor}
         address-family ipv6 unicast
           allowas-in
           no disable-peer-as-check
@@ -165,7 +177,7 @@ class profile::network::bgp {
   command   => "
     router bgp 55
       vrf nondefault
-        neighbor 192.1.1.1
+        neighbor ${neighbor}
           address-family ipv6 unicast
             allowas-in
             no disable-peer-as-check

@@ -1,3 +1,7 @@
-class profile::network::igp {
-  include profile::igp::ospf
+class profile::network::igp (
+  $ensure = present,
+) {
+  class { 'profile::network::igp::ospf':
+    ensure => $ensure,
+  }
 }

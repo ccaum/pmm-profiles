@@ -1,11 +1,13 @@
-class profile::network::igp::ospf {
+class profile::network::igp::ospf (
+  $ensure = present,
+) {
   cisco_ospf { 'Sample':
-    ensure => present,
+    ensure => $ensure,
   }
 
   $md_password = '046E1803362E595C260E0B240619050A2D'
   cisco_interface_ospf { 'Ethernet1/1 Sample':
-    ensure                         => present,
+    ensure                         => $ensure,
     area                           => 200,
     cost                           => '200',
     hello_interval                 => 'default',
@@ -19,7 +21,7 @@ class profile::network::igp::ospf {
   }
 
   cisco_ospf_vrf { 'dark_blue default':
-    ensure                   => 'present',
+    ensure                   => $ensure,
     auto_cost                => '45000',
     default_metric           => '5',
     log_adjacency            => 'detail',
@@ -32,7 +34,7 @@ class profile::network::igp::ospf {
   }
 
   cisco_ospf_vrf { 'dark_blue vrf1':
-    ensure                   => 'present',
+    ensure                   => $ensure,
     auto_cost                => '46000',
     default_metric           => '10',
     log_adjacency            => 'log',
