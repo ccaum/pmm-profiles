@@ -45,4 +45,17 @@ class profile::network::igp::ospf (
     timer_throttle_spf_max   => '5700',
     timer_throttle_spf_start => '277',
   }
+
+  cisco_ospf_vrf { 'app_network':
+    ensure                   => $ensure,
+    auto_cost                => '47000',
+    default_metric           => '10',
+    log_adjacency            => 'log',
+    timer_throttle_lsa_hold  => '5600',
+    timer_throttle_lsa_max   => '5800',
+    timer_throttle_lsa_start => '10',
+    timer_throttle_spf_hold  => '1700',
+    timer_throttle_spf_max   => '5700',
+    timer_throttle_spf_start => '260',
+  }
 }
