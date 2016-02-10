@@ -22,7 +22,7 @@ class profile::network::igp::ospf (
 
   cisco_ospf_vrf { 'dark_blue default':
     ensure                   => $ensure,
-    auto_cost                => '45000',
+    auto_cost                => '44000',
     default_metric           => '5',
     log_adjacency            => 'detail',
     timer_throttle_lsa_hold  => '5500',
